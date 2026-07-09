@@ -1,0 +1,304 @@
+<html>
+  <head>
+    <title>char bot</title>
+  </head>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #f3f7ff, #e8f0ff);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .js-container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .chat-app {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 620px;
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, #4f46e5, #7c3aed);
+      color: white;
+      padding: 18px 20px;
+    }
+
+    .chat-header h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+
+    .chat-header p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .chat-messages-list {
+      flex: 1;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #f8faff;
+      overflow: scroll;
+      scrollbar-width: none;
+      max-height: 400px;
+    }
+
+    .chat-message {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 85%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: #4f46e5;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: #e9eefc;
+      color: #1f2937;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 10px;
+      padding: 14px;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .input-field {
+      flex: 1;
+      border: 1px solid #dbe3f0;
+      border-radius: 999px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .send-button {
+      border: none;
+      background: linear-gradient(90deg, #4f46e5, #7c3aed);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .send-button:hover {
+      opacity: 0.95;
+    }
+
+    .typing-indicator {
+      align-self: flex-start;
+      background: #eef2ff;
+      color: #4b5563;
+      padding: 10px 12px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+  </style>
+
+  <body>
+    <div class="js-container"></div>
+
+    <script src="reactbasics.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+        <script src="https://unpkg.com/supersimpledev/images/loadingSpinner.gif"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script type="text/babel">
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+
+      //props
+      function CharInput({
+        chatMessages,
+        setChatMessages,
+        isBotTyping,
+        setIsBotTyping,
+      }) {
+        const [inputValue, setInputValue] = React.useState("");
+
+        function saveInputValue(event) {
+          setInputValue(event.target.value);
+        }
+
+        function sendMessage() {
+          if (!inputValue.trim()) return;
+
+          setChatMessages([
+            ...chatMessages,
+            {
+              message: inputValue,
+              sender: "user",
+              id: crypto.randomUUID(),
+            },
+          ]);
+
+          setIsBotTyping(true);
+
+          const response = Chatbot.getResponse(inputValue);
+         
+
+          setTimeout(() => {
+            setChatMessages((prevMessages) => [
+              ...prevMessages,
+              {
+                message: response,
+                sender: "bot",
+                id: crypto.randomUUID(),
+              },
+            ]);
+            setInputValue("");
+            setIsBotTyping(false);
+          }, 2000);
+        }
+
+        function handleKeyDown(event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          }
+        }
+        function handleEsc(event) {
+          if (event.key === "Escape") {
+            setInputValue("");
+          }
+        }
+
+        return (
+          <div className="chat-input-area">
+            <input
+              className="input-field"
+              type="text"
+              placeholder="Type a message..."
+              value={inputValue}
+              onChange={saveInputValue}
+              onKeyDown={handleKeyDown}
+              onKeyUp={handleEsc}
+            ></input>
+            <button className="send-button" onClick={sendMessage}>
+              Send
+            </button>
+          </div>
+        );
+      }
+
+      function ChatMessages({ message, sender }) {
+        return (
+          <div
+            className={`chat-message ${sender === "bot" ? "bot-message" : "user-message"}`}
+          >
+            {sender === "bot" && <img src="bot.webp" alt="Bot" width="32" />}
+            {message}
+            {sender === "user" && <img src="OIP.webp" alt="User" width="32" />}
+          </div>
+        );
+      }
+
+      function ChatMessagesList({ chatMessages, isBotTyping }) {
+       const chatMessagesListRef = React.useRef(null);
+        React.useEffect(()=>{
+          const chatMessagesList = chatMessagesListRef.current;
+          chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
+        }, [chatMessages]);
+
+        return (
+          <div className="chat-messages-list" ref={chatMessagesListRef}>
+            {chatMessages.length === 0 && (
+              <div style={{ textAlign: "center", color: "#9ca3af" }}>
+                No messages yet. Start the conversation!  
+              </div>
+            )}
+            {chatMessages.map((chatMessage) => {
+              
+              return (
+                <ChatMessages
+                  key={chatMessage.id}
+                  message={chatMessage.message}
+                  sender={chatMessage.sender}
+                />
+              );
+            })}
+            {isBotTyping && (
+              <div className="typing-indicator">
+                <img src="bot.webp" alt="Bot" width="24" /> {loadingSpinner().}
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      function App() {
+        const [chatMessages, setChatMessages] = React.useState([]);
+        const [isBotTyping, setIsBotTyping] = React.useState(false);
+        //its destructuring array in state
+        //  const chatMessages = array[0]; //its our inital valu
+        //  const setChatMessages = array[1];//its out update valu
+
+        return (
+          <div className="chat-app">
+            <div className="chat-header">
+              <h2>AI Assistant</h2>
+              <p>Ask me anything</p>
+            </div>
+
+            <ChatMessagesList
+              chatMessages={chatMessages}
+              isBotTyping={isBotTyping}
+            />
+
+            <CharInput
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+              isBotTyping={isBotTyping}
+              setIsBotTyping={setIsBotTyping}
+            />
+          </div>
+        );
+      }
+      root.render(<App></App>);
+    </script>
+  </body>
+</html>
