@@ -1,36 +1,19 @@
-<html>
-  <head>
-    <title>char bot</title>
-  </head>
+import { useState,useEffect,useRef } from 'react' ;
 
-  <style>
-   
-  </style>
+import {Chatbot} from 'supersimpledev'
 
-  <body>
-    <div class="js-container"></div>
+import botimg from './assets/bot.webp'
+import userimg from './assets/OIP.webp'
 
-    <script src="reactbasics.js"></script>
-    <script src="https://unpkg.com/supersimpledev/react.js"></script>
-    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+import './App.css'
 
-    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
-        <script src="https://unpkg.com/supersimpledev/images/loadingSpinner.gif"></script>
-
-    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
-    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
-    <script type="text/babel">
-      const container = document.querySelector(".js-container");
-      const root = ReactDOM.createRoot(container);
-
-      //props
-      function CharInput({
+        function CharInput({
         chatMessages,
         setChatMessages,
-        isBotTyping,
+        // isBotTyping,
         setIsBotTyping,
       }) {
-        const [inputValue, setInputValue] = React.useState("");
+        const [inputValue, setInputValue] = useState("");
 
         function saveInputValue(event) {
           setInputValue(event.target.value);
@@ -101,16 +84,16 @@
           <div
             className={`chat-message ${sender === "bot" ? "bot-message" : "user-message"}`}
           >
-            {sender === "bot" && <img src="bot.webp" alt="Bot" width="32" />}
+            {sender === "bot" && <img src={botimg} alt="Bot" width="32" />}
             {message}
-            {sender === "user" && <img src="OIP.webp" alt="User" width="32" />}
+            {sender === "user" && <img src={userimg} alt="User" width="32" />}
           </div>
         );
       }
 
       function ChatMessagesList({ chatMessages, isBotTyping }) {
-       const chatMessagesListRef = React.useRef(null);
-        React.useEffect(()=>{
+       const chatMessagesListRef = useRef(null);
+          useEffect(()=>{
           const chatMessagesList = chatMessagesListRef.current;
           chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
         }, [chatMessages]);
@@ -134,7 +117,8 @@
             })}
             {isBotTyping && (
               <div className="typing-indicator">
-                <img src="bot.webp" alt="Bot" width="24" /> 
+                <img src={botimg} alt="Bot" width="24" /> 
+                <span>Bot is typing...</span>
               </div>
             )}
           </div>
@@ -142,8 +126,8 @@
       }
 
       function App() {
-        const [chatMessages, setChatMessages] = React.useState([]);
-        const [isBotTyping, setIsBotTyping] = React.useState(false);
+        const [chatMessages, setChatMessages] =useState([]);
+        const [isBotTyping, setIsBotTyping] = useState(false);
         //its destructuring array in state
         //  const chatMessages = array[0]; //its our inital valu
         //  const setChatMessages = array[1];//its out update valu
@@ -169,7 +153,5 @@
           </div>
         );
       }
-      root.render(<App></App>);
-    </script>
-  </body>
-</html>
+
+export default App
