@@ -73,7 +73,7 @@ import './App.css'
               onKeyUp={handleEsc}
             ></input>
             <button className="send-button" onClick={sendMessage}>
-              Send query
+              Send
             </button>
           </div>
         );
@@ -117,8 +117,15 @@ import './App.css'
             })}
             {isBotTyping && (
               <div className="typing-indicator">
-                <img src={botimg} alt="Bot" width="24" /> 
-                <span>Bot is typing...</span>
+                <img src={botimg} alt="Bot" width="24" />
+                <div className="typing-text">
+                  <span>Bot is typing</span>
+                  <span className="typing-dots">
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                  </span>
+                </div>
               </div>
             )}
           </div>
