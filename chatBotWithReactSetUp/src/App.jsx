@@ -73,7 +73,7 @@ import './App.css'
               onKeyUp={handleEsc}
             ></input>
             <button className="send-button" onClick={sendMessage}>
-              Send
+              Send query
             </button>
           </div>
         );
