@@ -5,7 +5,6 @@ import { ChatMessagesList } from "./component/ChatMessagesList.jsx";
 
 import "./App.css";
 
-import dayjs from 'dayjs'
 
 function App() {
   const [chatMessages, setChatMessages] = useState(()=>{
