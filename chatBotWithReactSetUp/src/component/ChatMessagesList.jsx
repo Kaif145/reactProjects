@@ -8,7 +8,7 @@ export function ChatMessagesList({ chatMessages, isBotTyping }) {
           const chatMessagesList = chatMessagesListRef.current;
           chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
         }, [chatMessages]);
-
+        
         return (
           <div className="chat-messages-list" ref={chatMessagesListRef}>
             {chatMessages.length === 0 && (
@@ -23,6 +23,7 @@ export function ChatMessagesList({ chatMessages, isBotTyping }) {
                   key={chatMessage.id}
                   message={chatMessage.message}
                   sender={chatMessage.sender}
+                  time={chatMessage.time}
                 />
               );
             })}
