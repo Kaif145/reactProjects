@@ -157,3 +157,13 @@
         opacity: 1;
       }
     }
+
+    .clear-button{
+      border: none;
+      background: linear-gradient(90deg, #e11d48, #be123c);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }

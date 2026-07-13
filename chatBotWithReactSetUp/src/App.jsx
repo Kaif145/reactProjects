@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 import { ChatInput } from "./component/ChatInput.jsx";
 import { ChatMessagesList } from "./component/ChatMessagesList.jsx";
 
 import "./App.css";
+
 import dayjs from 'dayjs'
-console.log(dayjs().valueOf());
+
 function App() {
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState(()=>{
+    const storedMessages = localStorage.getItem('chatMessages');
+    if(storedMessages){
+      return JSON.parse(storedMessages);
+    }
+    return [];
+  });
+  //here we set the chatMessages state to the value stored in localStorage if it exists, otherwise we set it to an empty array. This way, when the user refreshes the page, the chat messages will persist.
+   useEffect(()=>{
+          localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+        }, [chatMessages]);
+
   const [isBotTyping, setIsBotTyping] = useState(false);
-  //its destructuring array in state
-  //  const chatMessages = array[0]; //its our inital valu
-  //  const setChatMessages = array[1];//its out update valu
+  
 
   return (
     <div className="chat-app">
