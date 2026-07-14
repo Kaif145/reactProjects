@@ -2,12 +2,7 @@ import { useState } from "react";
 import {Chatbot} from 'supersimpledev'
 import dayjs from 'dayjs'
 console.log(dayjs().valueOf());
-export function ChatInput({
-        chatMessages,
-        setChatMessages,
-        // isBotTyping,
-        setIsBotTyping,
-      }) {
+export function ChatInput({chatMessages, setChatMessages,setIsBotTyping, }) {
         const [inputValue, setInputValue] = useState("");
 
         function saveInputValue(event) {
@@ -57,6 +52,11 @@ export function ChatInput({
             setInputValue("");
           }
         }
+        function clearMessages() {
+          setChatMessages([]);
+          localStorage.clear();
+        }
+
 
         return (
           <div className="chat-input-area">
@@ -71,6 +71,9 @@ export function ChatInput({
             ></input>
             <button className="send-button" onClick={sendMessage}>
               Send
+            </button>
+            <button className="clear-button" onClick={clearMessages}>
+              Clear
             </button>
           </div>
         );
