@@ -1,5 +1,6 @@
 import './HomePage.css';
 import './header.css';
+import React from 'react';
 export function HomePage() {
     return (
         <>
@@ -22,7 +23,7 @@ export function HomePage() {
       </div>
 
       <div className="right-section">
-        <a className="orders-link header-link" href="orders.html">
+        <a className="orders-link header-link" href="http://localhost:5173/Orders">
 
           <span className="orders-text">Orders</span>
         </a>
