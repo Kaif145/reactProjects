@@ -9,6 +9,7 @@ import "./App.css";
 function App() {
   return (
     <>
+    {/* this help us to navigation the page without loding */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/checkout" element={<Checkout />} />
