@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Checkout from "./pages/Checkout";
+import Checkout from "./pages/checkout/Checkout";
 import Order from "./pages/Orders";
 import Tracking from "./pages/Tracking";
 import "./App.css";
@@ -19,6 +19,5 @@ function App() {
     </>
   );
 }
-
 
 export default App;
