@@ -1,6 +1,7 @@
 import React from "react";
 import "./Checkout.css";
 import { CheackoutHeader } from "./CheckoutHeader";
+
 export function Checkout() {
   return (
     <>
