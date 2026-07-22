@@ -7,18 +7,24 @@ import {React,useEffect,useState} from "react";
 export function HomePage() {
 
    const [products,setProduct] =useState([]);
+   const [cartItem, setCartItem] = useState([]);
 
   useEffect(()=>{
-    
   axios.get('http://localhost:3000/api/products')
     .then((responprse)=>{
       setProduct(responprse.data);
     })
+
+     axios.get('http://localhost:3000/api/cart-items')
+    .then((response)=>{
+        setCartItem(response.data);
+    });
   },[])
   
+ 
   return (
     <>
-      <Header />
+      <Header cartItem = {cartItem}/>
 
       <div className="home-page">
         <div className="products-grid">
@@ -44,7 +50,7 @@ export function HomePage() {
                   <div className="product-rating-count link-primary">{product.rating.count}</div>
                 </div>
 
-                <div className="product-price">{product.priceCents /100}</div>
+                <div className="product-price">${product.priceCents /100}</div>
 
                 <div className="product-quantity-container">
                   <select>
