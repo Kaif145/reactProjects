@@ -10,12 +10,12 @@ export function HomePage() {
    const [cartItem, setCartItem] = useState([]);
 
   useEffect(()=>{
-  axios.get('http://localhost:3000/api/products')
+  axios.get('/api/products')
     .then((responprse)=>{
       setProduct(responprse.data);
     })
 
-     axios.get('http://localhost:3000/api/cart-items')
+     axios.get('/api/cart-items')
     .then((response)=>{
         setCartItem(response.data);
     });
