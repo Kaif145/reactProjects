@@ -10,7 +10,7 @@ import "./App.css";
 function App() {
   const [cartItem, setCartItem] = useState([]);
   useEffect(() => {
-    axios.get("/api/cart-items").then((response) => {
+    axios.get("/api/cart-items?expand=product").then((response) => {
       setCartItem(response.data);
     });
   }, []);

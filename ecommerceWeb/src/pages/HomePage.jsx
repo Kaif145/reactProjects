@@ -1,5 +1,5 @@
 import "./Homepage.css";
-
+import {moneyGenrator}  from "../utiles/money";
 import axios from "axios";
 import { Header } from "../component/Header";
 import { React, useEffect, useState } from "react";
@@ -40,7 +40,7 @@ export function HomePage({ cartItem }) {
                   </div>
                 </div>
 
-                <div className="product-price">${product.priceCents / 100}</div>
+                <div className="product-price">{moneyGenrator(product.priceCents)}</div>
 
                 <div className="product-quantity-container">
                   <select>
