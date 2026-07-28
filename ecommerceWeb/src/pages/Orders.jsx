@@ -1,10 +1,11 @@
 import React from "react";
 import "./Orders.css";
 import {Header} from "../component/Header"
-export function Order() {
+export function Order({cartItem}) {
+  
   return (
     <>
-      <Header />
+      <Header cartItem={cartItem} />
       <div className="orders-page">
         <div className="page-title">Your Orders</div>
 

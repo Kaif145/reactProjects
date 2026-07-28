@@ -171,4 +171,5 @@ export function Checkout({ cartItem }) {
   );
 }
 
+
 export default Checkout;
