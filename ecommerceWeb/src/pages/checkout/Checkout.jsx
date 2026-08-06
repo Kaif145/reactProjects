@@ -11,20 +11,22 @@ export function Checkout({ cartItem }) {
 
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   useEffect(() => {
-    axios
-      .get("/api/delivery-options?expand=estimatedDeliveryTime")
-      .then((response) => {
-        setDeliveryOptions(response.data);
-      });
+    const fetchData = async () => {
+      const response = await axios.get(
+        "/api/delivery-options?expand=estimatedDeliveryTime",
+      );
+      setDeliveryOptions(response.data);
 
-    axios.get("/api/payment-summary").then((response) => {
-      setPaymentSummery(response.data);
-    });
-    
+      const res = await axios.get("/api/payment-summary");
+
+      setPaymentSummery(res.data);
+    };
+    fetchData();
   }, []);
+
   if (!paymentSummery) {
-  return <div>Loading...</div>;
-}
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -118,58 +120,54 @@ export function Checkout({ cartItem }) {
           </div>
 
           <div className="payment-summary">
-            <div className="payment-summary-title">
-              Payment Summary
-            </div>
+            <div className="payment-summary-title">Payment Summary</div>
             {paymentSummery && (
               <>
-              <div className="payment-summary-row">
-              <div>Items ({paymentSummery.totalItems})</div>
-              <div className="payment-summary-money">
-                {moneyGenrator(paymentSummery.productCostCents)}
-              </div>
-            </div>
+                <div className="payment-summary-row">
+                  <div>Items ({paymentSummery.totalItems})</div>
+                  <div className="payment-summary-money">
+                    {moneyGenrator(paymentSummery.productCostCents)}
+                  </div>
+                </div>
 
-            <div className="payment-summary-row">
-              <div>Shipping &amp; handling:</div>
-              <div className="payment-summary-money">
-                {moneyGenrator(paymentSummery.shippingCostCents)}
-              </div>
-            </div>
+                <div className="payment-summary-row">
+                  <div>Shipping &amp; handling:</div>
+                  <div className="payment-summary-money">
+                    {moneyGenrator(paymentSummery.shippingCostCents)}
+                  </div>
+                </div>
 
-            <div className="payment-summary-row subtotal-row">
-              <div>Total before tax:</div>
-              <div className="payment-summary-money">
-                {moneyGenrator(paymentSummery.totalCostBeforeTaxCents)}
-              </div>
-            </div>
+                <div className="payment-summary-row subtotal-row">
+                  <div>Total before tax:</div>
+                  <div className="payment-summary-money">
+                    {moneyGenrator(paymentSummery.totalCostBeforeTaxCents)}
+                  </div>
+                </div>
 
-            <div className="payment-summary-row">
-              <div>Estimated tax (10%):</div>
-              <div className="payment-summary-money">
-                {moneyGenrator(paymentSummery.taxCents)}
-              </div>
-            </div>
+                <div className="payment-summary-row">
+                  <div>Estimated tax (10%):</div>
+                  <div className="payment-summary-money">
+                    {moneyGenrator(paymentSummery.taxCents)}
+                  </div>
+                </div>
 
-            <div className="payment-summary-row total-row">
-              <div>Order total:</div>
-              <div className="payment-summary-money">
-                {moneyGenrator(paymentSummery.totalCostCents)}
-              </div>
-            </div>
+                <div className="payment-summary-row total-row">
+                  <div>Order total:</div>
+                  <div className="payment-summary-money">
+                    {moneyGenrator(paymentSummery.totalCostCents)}
+                  </div>
+                </div>
 
-            <button className="place-order-button button-primary">
-              Place your order
-            </button>
-            </>
+                <button className="place-order-button button-primary">
+                  Place your order
+                </button>
+              </>
             )}
-            
           </div>
         </div>
       </div>
     </>
   );
 }
-
 
 export default Checkout;
