@@ -1,6 +1,7 @@
 import React from "react";
 import {moneyGenrator} from '../utiles/money'
-export function HomePageGrid({products}){
+import axios from "axios";
+export function HomePageGrid({products,loadCart}){
     
     return(
         <div className="products-grid">
@@ -49,15 +50,20 @@ export function HomePageGrid({products}){
                           Added
                         </div>
         
-                        <button className="add-to-cart-button button-primary">
+                        <button className="add-to-cart-button button-primary" 
+                        onClick={async ()=>{
+                           await axios.post('/api/cart-items',{
+                            productId: product.id,
+                            quantity : 1,
+                          });
+                         await loadCart();
+                        }}>
                           Add to Cart
                         </button>
                       </div>
                     );
                   })}
-                  <button className="add-to-cart-button button-primary">
-                    Add to Cart
-                  </button>
+                
          </div>
     )
 }
