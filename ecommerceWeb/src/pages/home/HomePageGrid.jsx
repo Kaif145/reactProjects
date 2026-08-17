@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { Product } from "./product";
 export function HomePageGrid({ products, loadCart }) {
   return (
