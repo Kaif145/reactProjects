@@ -56,7 +56,7 @@ function App() {
             />
           }
         />
-        <Route path="/checkout" element={<Checkout cartItem={cartItem} />} />
+        <Route path="/checkout" element={<Checkout cartItem={cartItem} loadCart={loadCart}/>} />
         <Route
           path="/orders"
           element={<Order cartItem={cartItem} orderItems={orderItems} />}
