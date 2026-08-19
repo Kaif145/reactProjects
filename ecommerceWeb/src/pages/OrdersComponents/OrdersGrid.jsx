@@ -1,9 +1,17 @@
 import { moneyGenrator } from "../../utiles/money";
 import React, { Fragment } from "react";
-
+import axios from "axios";
 import dayjs from "dayjs";
 
-export function OrdersGrid({ orderItems }) {
+export function OrdersGrid({ orderItems, loadCart}) {
+  const addImtesOrderToCart = async (productItem) => {
+    await axios.post("/api/cart-items", {
+      productId: productItem.id,
+      quantity: 1,
+    } );
+     await loadCart();
+  };
+
   return (
     <div className="orders-grid">
       {orderItems.map((addedItem) => (
@@ -37,15 +45,17 @@ export function OrdersGrid({ orderItems }) {
                   <div className="product-image-container">
                     <img
                       src={
-                        productItems.image ||
+                        productItems.product?.image ||
                         "images/products/athletic-cotton-socks-6-pairs.jpg"
                       }
-                      alt={productItems.name}
+                      alt={productItems.product?.name || "Ordered product"}
                     />
                   </div>
 
                   <div className="product-details">
-                    <div className="product-name">{productItems.name}</div>
+                    <div className="product-name">
+                      {productItems.product?.name}
+                    </div>
                     <div className="product-delivery-date">
                       {dayjs(productItems.estimatedDeliveryTimeMs).format(
                         "MMMM D",
@@ -57,10 +67,17 @@ export function OrdersGrid({ orderItems }) {
                     <button className="buy-again-button button-primary">
                       <img
                         className="buy-again-icon"
-                        src={productItems.image}
+                        src={productItems.product?.image}
                         alt=""
                       />
-                      <span className="buy-again-message">Add to Cart</span>
+                      <span
+                        className="buy-again-message"
+                        onClick={()=>{
+                          addImtesOrderToCart(productItems.product)}
+                        }
+                      >
+                        Add to Cart
+                      </span>
                     </button>
                   </div>
 

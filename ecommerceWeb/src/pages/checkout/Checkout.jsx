@@ -9,6 +9,14 @@ import { OrderSummary } from "./OrderSummary";
 export function Checkout({ cartItem, loadCart }) {
   const [paymentSummery, setPaymentSummery] = useState(null);
 
+  useEffect(()=>{
+    const fetchPaymentData = async()=>{
+      const res = await axios.get("/api/payment-summary");
+      setPaymentSummery(res.data);
+    }
+    fetchPaymentData();
+  },[cartItem]);
+
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -16,10 +24,6 @@ export function Checkout({ cartItem, loadCart }) {
         "/api/delivery-options?expand=estimatedDeliveryTime",
       );
       setDeliveryOptions(response.data);
-
-      const res = await axios.get("/api/payment-summary");
-
-      setPaymentSummery(res.data);
     };
     fetchData();
   }, [cartItem]);
