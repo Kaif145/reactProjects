@@ -1,12 +1,16 @@
 import { moneyGenrator } from "../../utiles/money";
 import React, { Fragment } from "react";
-
+import axios from "axios";
 import dayjs from "dayjs";
 
-export function OrdersGrid({ orderItems }) {
-  const addImtesOrderToCart = async () => {
-    
-  }
+export function OrdersGrid({ orderItems, loadCart}) {
+  const addImtesOrderToCart = async (productItem) => {
+    await axios.post("/api/cart-items", {
+      productId: productItem.id,
+      quantity: 1,
+    } );
+     await loadCart();
+  };
 
   return (
     <div className="orders-grid">
@@ -66,7 +70,14 @@ export function OrdersGrid({ orderItems }) {
                         src={productItems.product?.image}
                         alt=""
                       />
-                      <span className="buy-again-message" onClick={addImtesOrderToCart}>Add to Cart</span>
+                      <span
+                        className="buy-again-message"
+                        onClick={()=>{
+                          addImtesOrderToCart(productItems.product)}
+                        }
+                      >
+                        Add to Cart
+                      </span>
                     </button>
                   </div>
 
