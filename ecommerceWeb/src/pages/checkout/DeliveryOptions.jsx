@@ -27,6 +27,7 @@ export function DeliveryOptions({ cart, deliveryOptions, loadCart }) {
             <input
               type="radio"
               checked={deliveryOption.id === cart.deliveryOptionId}
+              onChange={()=>{}}
               className="delivery-option-input"
               name={`delivery-option-${cart.productId}`}
             />
