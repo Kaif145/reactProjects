@@ -14,15 +14,17 @@ function App() {
     setCartItem(response.data);
   };
   useEffect(() => {
-    loadCart();
+    loadCart();     
   }, []);
+
+  window.axios = axios;
 
   const [orderItems, setOrderItems] = useState([]);
   useEffect(() => {
     async function fetchOrders() {
       try {
         const response = await axios.get("/api/orders?expand=products");
-        console.log(response);
+        // console.log(response);
         setOrderItems(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -60,11 +62,12 @@ function App() {
         <Route
           path="/orders"
           element={<Order cartItem={cartItem} orderItems={orderItems} loadCart ={loadCart}/>}
-        />
+        />,
         <Route path="/tracking" element={<Tracking />} />
       </Routes>
     </>
   );
 }
+
 
 export default App;
