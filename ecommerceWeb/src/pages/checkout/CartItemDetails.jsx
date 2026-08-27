@@ -56,6 +56,15 @@ export function CartItemDetails({ cart, deliveryOptions, loadCart }) {
                   onChange={(e) => {
                     setQuantity(e.target.value);
                   }}
+                  onKeyDown={(e)=>{
+                    if(e.key === "Enter"){
+                      updateQuantity();
+                    }else if(e.key === "Escape"){
+                      setQuantity(cart.quantity);
+                      setIsUpdatingQuantity(false);
+                    
+                    }
+                  }}
                 />
               ) : (
                 <span className="quantity-label">{cart.quantity}</span>
@@ -71,6 +80,7 @@ export function CartItemDetails({ cart, deliveryOptions, loadCart }) {
                   setIsUpdatingQuantity(true);
                 }
               }}
+              
             >
               Update
             </span>
@@ -83,6 +93,7 @@ export function CartItemDetails({ cart, deliveryOptions, loadCart }) {
             </span>
           </div>
         </div>
+
 
         <DeliveryOptions
           cart={cart}
