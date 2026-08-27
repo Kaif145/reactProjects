@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import moneyGenrator from "../../utiles/money";
 import { DeliveryOptions } from "./DeliveryOptions";
 import dayjs from "dayjs";
@@ -6,29 +6,26 @@ import axios from "axios";
 
 export function CartItemDetails({ cart, deliveryOptions, loadCart }) {
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
-  const [quantity,setQuantity] = useState(cart.quantity);
+  const [quantity, setQuantity] = useState(cart.quantity);
 
-  const selectedDeliveryOption = deliveryOptions.find(
-    (deliveryOption) => {
-      return deliveryOption.id === cart.deliveryOptionId;
-    },
-  );
+  const selectedDeliveryOption = deliveryOptions.find((deliveryOption) => {
+    return deliveryOption.id === cart.deliveryOptionId;
+  });
 
   const deleteCartItem = async () => {
     await axios.delete(`/api/cart-items/${cart.productId}`);
     await loadCart();
   };
-  
+
   const updateQuantity = async () => {
+    await axios.put(`/api/cart-items/${cart.productId}`, {
+      quantity: Number(quantity),
+    });
 
-   await axios.put(`/api/cart-items/${cart.productId}`, {
-    quantity: Number(quantity)
-  });
+    await loadCart();
 
-  await loadCart();
-
-  setIsUpdatingQuantity(false);
-};
+    setIsUpdatingQuantity(false);
+  };
   return (
     <div className="cart-item-container">
       <div className="delivery-date">
@@ -51,34 +48,28 @@ export function CartItemDetails({ cart, deliveryOptions, loadCart }) {
           <div className="product-quantity">
             <span>
               Quantity:{" "}
-
               {isUpdatingQuantity ? (
                 <input
                   className="quantity-box"
-                  type="text" value={quantity} onChange={(e)=>{
+                  type="text"
+                  value={quantity}
+                  onChange={(e) => {
                     setQuantity(e.target.value);
-
                   }}
-                  
-
                 />
               ) : (
-                <span className="quantity-label">
-                  {cart.quantity}
-                </span>
+                <span className="quantity-label">{cart.quantity}</span>
               )}
             </span>
 
             <span
               className="update-quantity-link link-primary"
               onClick={() => {
-                   if (isUpdatingQuantity) {
-      updateQuantity();
-    } else {
-      setIsUpdatingQuantity(true);
-    }
-
-
+                if (isUpdatingQuantity) {
+                  updateQuantity();
+                } else {
+                  setIsUpdatingQuantity(true);
+                }
               }}
             >
               Update
