@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
 import "./header.css";
+
 
 export function Header({cartItem}) {
 //  console.log("cartItem:", cartItem);
@@ -8,6 +9,7 @@ export function Header({cartItem}) {
 cartItem.forEach((item) => {
   totalItem += item.quantity;
 });
+const [searchValue,setSeacrchValue] = useState("");
 
    
  
@@ -22,7 +24,14 @@ cartItem.forEach((item) => {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
+          <input className="search-bar" type="text" value={searchValue} placeholder="Search" onChange={(e)=>{
+            setSeacrchValue(e.target.value);
+            console.log(e.target.value);
+
+           } }
+            
+            />
+           
 
           <button className="search-button">
             <img className="search-icon" src="images/icons/search-icon.png" />

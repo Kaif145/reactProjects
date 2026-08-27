@@ -63,7 +63,7 @@ function App() {
           path="/orders"
           element={<Order cartItem={cartItem} orderItems={orderItems} loadCart ={loadCart}/>}
         />,
-        <Route path="/tracking" element={<Tracking />} />
+        <Route path="/tracking" element={<Tracking cartItem={cartItem}/>} />
       </Routes>
     </>
   );
