@@ -34,15 +34,15 @@ function App() {
     fetchOrders();
   }, []);
 
-  const [products, setProduct] = useState([]);
+  // const [products, setProduct] = useState([]);
 
-  useEffect(() => {
-    const fatchProductData = async () => {
-      const response = await axios.get("/api/products");
-      setProduct(response.data);
-    };
-    fatchProductData();
-  }, []);
+  // useEffect(() => {
+  //   const fatchProductData = async () => {
+  //     const response = await axios.get("/api/products");
+  //     setProduct(response.data);
+  //   };
+  //   fatchProductData();
+  // }, []);
 
   return (
     <>
@@ -53,7 +53,7 @@ function App() {
           element={
             <HomePage
               cartItem={cartItem}
-              products={products}
+              
               loadCart={loadCart}
             />
           }
@@ -63,7 +63,7 @@ function App() {
           path="/orders"
           element={<Order cartItem={cartItem} orderItems={orderItems} loadCart ={loadCart}/>}
         />,
-        <Route path="/tracking" element={<Tracking />} />
+        <Route path="/tracking" element={<Tracking cartItem={cartItem}/>} />
       </Routes>
     </>
   );

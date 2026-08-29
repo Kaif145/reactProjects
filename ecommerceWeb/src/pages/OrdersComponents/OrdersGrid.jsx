@@ -2,14 +2,14 @@ import { moneyGenrator } from "../../utiles/money";
 import React, { Fragment } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-
-export function OrdersGrid({ orderItems, loadCart}) {
+import { NavLink } from "react-router-dom";
+export function OrdersGrid({ orderItems, loadCart }) {
   const addImtesOrderToCart = async (productItem) => {
     await axios.post("/api/cart-items", {
       productId: productItem.id,
       quantity: 1,
-    } );
-     await loadCart();
+    });
+    await loadCart();
   };
 
   return (
@@ -72,9 +72,9 @@ export function OrdersGrid({ orderItems, loadCart}) {
                       />
                       <span
                         className="buy-again-message"
-                        onClick={()=>{
-                          addImtesOrderToCart(productItems.product)}
-                        }
+                        onClick={() => {
+                          addImtesOrderToCart(productItems.product);
+                        }}
                       >
                         Add to Cart
                       </span>
@@ -82,11 +82,11 @@ export function OrdersGrid({ orderItems, loadCart}) {
                   </div>
 
                   <div className="product-actions">
-                    <a href="tracking">
+                    <NavLink to="/tracking">
                       <button className="track-package-button button-secondary">
                         Track package
                       </button>
-                    </a>
+                    </NavLink>
                   </div>
                 </Fragment>
               ))}
