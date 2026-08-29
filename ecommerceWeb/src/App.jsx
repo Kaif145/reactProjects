@@ -34,15 +34,15 @@ function App() {
     fetchOrders();
   }, []);
 
-  const [products, setProduct] = useState([]);
+  // const [products, setProduct] = useState([]);
 
-  useEffect(() => {
-    const fatchProductData = async () => {
-      const response = await axios.get("/api/products");
-      setProduct(response.data);
-    };
-    fatchProductData();
-  }, []);
+  // useEffect(() => {
+  //   const fatchProductData = async () => {
+  //     const response = await axios.get("/api/products");
+  //     setProduct(response.data);
+  //   };
+  //   fatchProductData();
+  // }, []);
 
   return (
     <>
@@ -53,7 +53,7 @@ function App() {
           element={
             <HomePage
               cartItem={cartItem}
-              products={products}
+              
               loadCart={loadCart}
             />
           }
